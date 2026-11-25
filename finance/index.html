@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Мої платежі</title>
+  <meta name="theme-color" content="#1f6feb" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===================== ГОЛОВНИЙ ЕКРАН ===================== -->
+  <main id="home">
+    <header class="top">
+      <h1 id="appTitle">Мої платежі</h1>
+      <p class="hint">Натисніть велику зелену кнопку, щоб додати запис.</p>
+    </header>
+
+    <button class="btn btn-add" id="btnAdd">➕ Додати запис</button>
+
+    <section class="totals" id="totals"></section>
+
+    <section id="list" aria-live="polite"></section>
+
+    <section class="export">
+      <h2>Зберегти таблицю</h2>
+      <button class="btn btn-export" id="btnExcel">📊 Завантажити Excel</button>
+      <button class="btn btn-export" id="btnPdf">📄 Завантажити PDF</button>
+      <button class="btn btn-ghost" id="btnClear">🗑 Почати нову таблицю</button>
+    </section>
+  </main>
+
+  <!-- ===================== МАЙСТЕР ДОДАВАННЯ ===================== -->
+  <div class="wizard" id="wizard" hidden>
+    <div class="wizard-bar">
+      <button class="btn-back" id="btnBack">← Назад</button>
+      <span class="step-count" id="stepCount"></span>
+      <button class="btn-close" id="btnCancel" aria-label="Закрити">✕</button>
+    </div>
+
+    <!-- Крок 1: тип -->
+    <section class="step" data-step="type">
+      <h2>Гроші прийшли чи пішли?</h2>
+      <button class="btn btn-big btn-income" data-type="income">⬇️ ДОХІД<small>гроші прийшли мені</small></button>
+      <button class="btn btn-big btn-expense" data-type="expense">⬆️ ВИТРАТА<small>гроші пішли від мене</small></button>
+    </section>
+
+    <!-- Крок 2: картка -->
+    <section class="step" data-step="card">
+      <h2 id="cardTitle">Яка картка?</h2>
+      <div class="choices" id="cardChoices"></div>
+      <div class="own">
+        <label for="cardInput">Або введіть номер картки:</label>
+        <input id="cardInput" inputmode="numeric" autocomplete="off" placeholder="0000 0000 0000 0000" maxlength="23" />
+        <label for="cardNameInput">Ім'я (необов'язково):</label>
+        <input id="cardNameInput" autocomplete="off" placeholder="Наприклад: Марія" />
+        <button class="btn btn-next" id="cardNext">Далі →</button>
+      </div>
+    </section>
+
+    <!-- Крок 3: призначення -->
+    <section class="step" data-step="purpose">
+      <h2 id="purposeTitle">Призначення платежу</h2>
+      <div class="choices" id="purposeChoices"></div>
+      <div class="own">
+        <label for="purposeInput">Або напишіть своє:</label>
+        <input id="purposeInput" autocomplete="off" placeholder="Наприклад: за ремонт" />
+        <button class="btn btn-next" id="purposeNext">Далі →</button>
+      </div>
+    </section>
+
+    <!-- Крок 4: сума і дата -->
+    <section class="step" data-step="amount">
+      <h2>Сума і дата</h2>
+      <label for="amountInput">Сума, <span id="currency">грн</span> (можна пропустити):</label>
+      <input id="amountInput" inputmode="decimal" autocomplete="off" placeholder="0" />
+      <label for="dateInput">Дата:</label>
+      <input id="dateInput" type="date" />
+      <button class="btn btn-next" id="amountNext">Далі →</button>
+    </section>
+
+    <!-- Крок 5: документ -->
+    <section class="step" data-step="file">
+      <h2>Документ / квитанція</h2>
+      <p class="hint">Це необов'язково. Можна сфотографувати чек або вибрати файл.</p>
+      <label class="btn btn-file">
+        📎 Прикріпити файл або фото
+        <input type="file" id="fileInput" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" hidden />
+      </label>
+      <div class="file-chosen" id="fileChosen" hidden></div>
+      <label for="fileNameInput">Або просто напишіть назву документа:</label>
+      <input id="fileNameInput" autocomplete="off" placeholder="Наприклад: квитанція №15" />
+      <button class="btn btn-save" id="btnSave">✅ Зберегти запис</button>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="vendor/xlsx.full.min.js" defer></script>
+  <script src="vendor/pdfmake.min.js" defer></script>
+  <script src="vendor/vfs_fonts.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
